@@ -6,6 +6,23 @@ dm-message.md
 dm-message.*.md
 !skills/*/templates/dm-message.example.md
 
+# Lark credentials and token cache.
+lark_config.json
+.lark_tokens.json
+
+# Brevo / generic env files.
+.env
+.env.local
+.env.*.local
+
+# Brevo per-run output dirs (created by run_brevo_email.py).
+brevo-output/
+yinch-auto-mkt-output/
+
+# Real request files (keep only *.example.json under examples/).
+*_request.json
+!skills/*/examples/*.example.json
+
 # Python
 __pycache__/
 *.py[cod]

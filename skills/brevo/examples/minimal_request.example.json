@@ -1,0 +1,14 @@
+{
+  "sender": {
+    "email": "you@example.com",
+    "name": "Your Name"
+  },
+  "to": [
+    {
+      "email": "recipient@example.com",
+      "name": "Recipient Name"
+    }
+  ],
+  "subject": "Hello from Brevo",
+  "markdown": "Hi Recipient,\n\nThis is a minimal Brevo email rendered from Markdown. Replace this body with your own copy before sending.\n\nBest,\nYour Name"
+}

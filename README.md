@@ -8,11 +8,13 @@ Reusable Claude Code / Codex skills for marketing outreach workflows.
 
 | Skill | What it does | Surfaces |
 |---|---|---|
+| `brevo` | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. One email per recipient, audit logs per run. | Brevo HTTP API |
+| `lark` | Read and write Lark (Feishu international) docs, sheets, drive files, and messages. Ships a `LarkClient` library + one-time OAuth helper + JSON-to-sheet pusher. | Lark Open Platform API |
 | `xhs-dm` | Drive the desktop Rednote (Xiaohongshu) app through a daily DM cadence: pick N targets from a queue, search, like, follow, send a DM, mark the result. | macOS desktop app via computer-use |
 
-More skills will land here over time. Each skill is self-contained: an
-`SKILL.md` Claude or Codex can read, scripts in `scripts/`, references in
-`references/`, and copy templates in `templates/`.
+Each skill is self-contained: an `SKILL.md` Claude or Codex can read,
+scripts in `scripts/`, references in `references/`, and copy templates
+or examples for the user to fill in.
 
 ## One-line install
 
@@ -55,17 +57,22 @@ python3 skills/xhs-dm/scripts/mark_sent.py --queue ./queue.json 2 3
 haili-auto-mkt/
 ├── install.sh              # one-shot installer for Claude Code / Codex
 ├── skills/
-│   └── xhs-dm/
-│       ├── SKILL.md        # skill front-matter + procedure for the agent
-│       ├── scripts/
-│       │   ├── pick_today.py
-│       │   └── mark_sent.py
-│       ├── references/
-│       │   ├── sop.md
-│       │   └── queue-schema.md
-│       └── templates/
-│           ├── queue.example.json
-│           └── dm-message.example.md
+│   ├── brevo/              # Brevo transactional email
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # run_brevo_email.py + bootstrap wrapper
+│   │   ├── references/     # request schema
+│   │   ├── examples/       # minimal + outreach request templates
+│   │   └── .env.example
+│   ├── lark/               # Lark / Feishu international API
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # lark_client.py + lark_auth.py + push_to_sheet.py
+│   │   ├── references/     # auth-flow + sheet-recipes
+│   │   └── templates/      # lark_config.example.json
+│   └── xhs-dm/             # Xiaohongshu desktop DM workflow
+│       ├── SKILL.md
+│       ├── scripts/        # pick_today.py + mark_sent.py
+│       ├── references/     # sop + queue-schema
+│       └── templates/      # queue + dm-message examples
 ├── LICENSE
 └── README.md
 ```

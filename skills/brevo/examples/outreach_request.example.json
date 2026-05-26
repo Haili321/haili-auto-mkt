@@ -1,0 +1,23 @@
+{
+  "sender": {
+    "email": "you@example.com",
+    "name": "Your Name at Your Org"
+  },
+  "to": [
+    {
+      "email": "contact@target-org.example.com",
+      "name": "Target Org"
+    }
+  ],
+  "subject": "Exploring a collaboration with {{TARGET_ORG_NAME}}",
+  "markdown": "Hi {{TARGET_ORG_NAME}} team,\n\nI'm {{YOUR_NAME}} from {{YOUR_ORG}}. {{ONE_LINE_HOOK}}\n\nI came across your work on {{THEIR_PROJECT}} and thought there might be a fit to explore {{COLLAB_TYPE}} together.\n\n## What we'd bring\n\n- {{BULLET_1}}\n- {{BULLET_2}}\n- {{BULLET_3}}\n\n## What we'd need from you\n\n- {{NEED_1}}\n- {{NEED_2}}\n\nThis is mainly to see whether the idea feels relevant. If it does, happy to send more details or set up a short call.\n\nBest,\n{{YOUR_NAME}}\n{{YOUR_TITLE}} at {{YOUR_ORG}}",
+  "tags": [
+    "outreach",
+    "{{CAMPAIGN_TAG}}"
+  ],
+  "metadata": {
+    "campaign": "{{CAMPAIGN_NAME}}",
+    "target_org": "{{TARGET_ORG_NAME}}",
+    "status": "draft"
+  }
+}
