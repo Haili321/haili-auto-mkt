@@ -26,6 +26,12 @@ yinch-auto-mkt-output/
 *_request.json
 !skills/*/examples/*.example.json
 
+# Blog drafts and image bundles the user keeps next to the lark-blog skill.
+*_draft.md
+*_launch.md
+blog-images/
+!skills/lark-blog/examples/**
+
 # Python
 __pycache__/
 *.py[cod]

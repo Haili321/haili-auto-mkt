@@ -10,6 +10,7 @@ Reusable Claude Code / Codex skills for marketing outreach workflows.
 |---|---|---|
 | `brevo` | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. One email per recipient, audit logs per run. | Brevo HTTP API |
 | `lark` | Read and write Lark (Feishu international) docs, sheets, drive files, and messages. Ships a `LarkClient` library + one-time OAuth helper + JSON-to-sheet pusher. | Lark Open Platform API |
+| `lark-blog` | Turn a Markdown blog draft (with inline image placeholders) into a new Lark docx for review. Posts blocks in batches, uploads PNGs, binds each to its image block. | Lark Open Platform API (depends on `lark` skill) |
 | `ph` | Daily Product Hunt account-warming: pull the leaderboard, group by topic, surface cross-topic upvote suggestions so the account looks like a curious user rather than a single-vertical voter. | Product Hunt GraphQL API |
 | `xhs-dm` | Drive the desktop Rednote (Xiaohongshu) app through a daily DM cadence: pick N targets from a queue, search, like, follow, send a DM, mark the result. | macOS desktop app via computer-use |
 
@@ -27,6 +28,7 @@ Typical chains:
 |---|---|
 | `lark` → `brevo` | Read finalised outreach copy and recipients from a Lark doc or sheet; the agent assembles a Brevo request JSON per recipient; `brevo` dry-runs, test-sends, then officially sends. |
 | `xhs-dm` → `lark` | After `pick_today.py` and a DM run, the agent calls `LarkClient.update_sheet_values` to tick a status column on the source sheet, keeping the Lark tracker in sync with `queue.json`. |
+| draft → `lark-blog` → reviewers | An author finalises a Markdown blog draft; `lark-blog` posts it as a Lark docx with inline images; reviewers comment in Lark; the author publishes to the CMS once approved. |
 | `lark` → `xhs-dm` | The agent reads a blogger list from a Lark sheet via `LarkClient.get_sheet_values`, transforms rows into the `queue.json` schema, and hands off to `xhs-dm`. |
 | `brevo` + `xhs-dm` | Run `brevo` outreach first; after a follow-up window, the agent moves no-reply recipients into the `xhs-dm` queue for a second channel. |
 
@@ -87,6 +89,10 @@ haili-auto-mkt/
 │   │   ├── scripts/        # lark_client.py + lark_auth.py + push_to_sheet.py
 │   │   ├── references/     # auth-flow + sheet-recipes
 │   │   └── templates/      # lark_config.example.json
+│   ├── lark-blog/          # Markdown blog -> Lark docx with inline images
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # push_blog_to_lark.py
+│   │   └── examples/       # sample-blog.md
 │   ├── ph/                 # Product Hunt daily warming
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # ph_daily.py

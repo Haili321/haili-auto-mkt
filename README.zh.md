@@ -10,6 +10,7 @@
 |---|---|---|
 | `brevo` | 通过 Brevo API 起草、空跑、测试发送、正式发送外联邮件。一封一发，每次都有审计日志。 | Brevo HTTP API |
 | `lark` | 读写 Lark / 飞书国际版的文档、表格、云盘、消息。自带 `LarkClient` 库 + OAuth 助手 + JSON 推到 sheet 的脚本。 | Lark 开放平台 API |
+| `lark-blog` | 把 Markdown 博客草稿（含 inline 图片占位）转成新的 Lark docx 供审阅。分批 push blocks、上传 PNG、绑定到图片 block。 | Lark 开放平台 API（依赖 `lark` 技能）|
 | `ph` | Product Hunt 日常养号：拉日榜、按主题分组、推荐跨品类 upvote 目标，让账号看起来像有好奇心的真实用户而不是单一垂类的投票机。 | Product Hunt GraphQL API |
 | `xhs-dm` | 驱动桌面版小红书 (Rednote) 完成每日 DM 节奏：从队列里挑 N 个目标，搜索、点赞、关注、发私信、回写结果。 | macOS 桌面应用 + computer-use |
 
@@ -26,6 +27,7 @@ Python 层面三个技能互相独立（不跨目录 import），但设计上可
 |---|---|
 | `lark` → `brevo` | 从 Lark 文档或表格里读定稿外联文案 + 收件人，agent 按收件人拼出 Brevo request JSON，`brevo` 空跑 + 测试 + 正式发送。 |
 | `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，agent 调 `LarkClient.update_sheet_values` 在源表上把状态列打勾，让 Lark tracker 和 `queue.json` 同步。 |
+| 草稿 → `lark-blog` → 审稿人 | 作者写完 Markdown 博客草稿；`lark-blog` 推成 Lark docx 含 inline 图片；审稿人在 Lark 里评论；定稿后作者手工发到 CMS。 |
 | `lark` → `xhs-dm` | agent 用 `LarkClient.get_sheet_values` 从 Lark 表读博主名单，转成 `queue.json` 结构，交给 `xhs-dm` 处理。 |
 | `brevo` + `xhs-dm` | 先跑 `brevo` 邮件外联，过一段时间未回复的 agent 自动转进 `xhs-dm` 的 queue.json，走第二条触达渠道。 |
 
@@ -83,6 +85,10 @@ haili-auto-mkt/
 │   │   ├── scripts/        # lark_client.py + lark_auth.py + push_to_sheet.py
 │   │   ├── references/     # 鉴权 + sheet 使用菜谱
 │   │   └── templates/      # lark_config.example.json
+│   ├── lark-blog/          # Markdown 博客 -> Lark docx 含 inline 图片
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # push_blog_to_lark.py
+│   │   └── examples/       # sample-blog.md
 │   ├── ph/                 # Product Hunt 日常养号
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # ph_daily.py
