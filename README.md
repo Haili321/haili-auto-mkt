@@ -42,7 +42,7 @@ Content (blog drafts):
 
 | Chain | Flow |
 |---|---|
-| draft → `lark-blog` → reviewers | An author finalises a Markdown blog draft; `lark-blog` posts it as a Lark docx with inline images; reviewers comment in Lark; the author publishes to the CMS once approved. |
+| draft → `lark-blog` → reviewers | An author finalises a Markdown blog draft; `lark-blog` posts it as a Lark docx with inline images; reviewers comment in Lark; the author publishes to the company's official website blog once approved. |
 
 Events (Luma):
 
@@ -50,7 +50,7 @@ Events (Luma):
 |---|---|
 | `luma-event-promo` → `brevo` | After the event, the agent exports the RSVP list (via Luma's admin API), assembles a per-attendee Brevo request, and `brevo` sends a thank-you + follow-up resource email one recipient at a time. |
 | `luma-event-promo` → `lark` | The agent syncs the live RSVP / waitlist count into a Lark sheet column so the team can watch fill-rate without logging into Luma. |
-| `luma-event-promo` → `lark-blog` | After the event, the agent drafts a recap Markdown (photos, attendance, key moments) and `lark-blog` posts it as a Lark docx for review before the public CMS publish. |
+| `luma-event-promo` → `lark-blog` | After the event, the agent drafts a recap Markdown (photos, attendance, key moments) and `lark-blog` posts it as a Lark docx for review before publishing to the company's official website blog. |
 
 Account presence (PH):
 

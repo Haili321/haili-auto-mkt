@@ -41,7 +41,7 @@ Python 层面所有技能互相独立（不跨目录 import），但设计上可
 
 | 链路 | 流程 |
 |---|---|
-| 草稿 → `lark-blog` → 审稿人 | 作者写完 Markdown 博客草稿；`lark-blog` 推成 Lark docx 含 inline 图片；审稿人在 Lark 里评论；定稿后作者手工发到 CMS。 |
+| 草稿 → `lark-blog` → 审稿人 | 作者写完 Markdown 博客草稿；`lark-blog` 推成 Lark docx 含 inline 图片；审稿人在 Lark 里评论；定稿后作者手工发到公司官网 blog。 |
 
 活动（Luma）：
 
@@ -49,7 +49,7 @@ Python 层面所有技能互相独立（不跨目录 import），但设计上可
 |---|---|
 | `luma-event-promo` → `brevo` | 活动结束后 agent 用 Luma admin API 导 RSVP 名单，按收件人拼 Brevo request，`brevo` 一封一发感谢 + 后续资料邮件。 |
 | `luma-event-promo` → `lark` | agent 把实时 RSVP / 候补人数同步到 Lark sheet 某一列，团队不用登 Luma 就能看报名进度。 |
-| `luma-event-promo` → `lark-blog` | 活动结束后 agent 起草 recap markdown（照片、出席率、关键时刻），`lark-blog` 推成 Lark docx 供 team 审，过后再发公网 CMS。 |
+| `luma-event-promo` → `lark-blog` | 活动结束后 agent 起草 recap markdown（照片、出席率、关键时刻），`lark-blog` 推成 Lark docx 供 team 审，过后再发到公司官网 blog。 |
 
 账号存在感（PH）：
 

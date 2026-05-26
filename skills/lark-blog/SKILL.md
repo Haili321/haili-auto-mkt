@@ -3,7 +3,8 @@ name: lark-blog
 description: |
   Convert a Markdown blog draft into a new Lark docx with inline images
   and bind each image to its placeholder. Output is the doc reviewers
-  open; the final publish step to your public site stays manual.
+  open; the final publish step to your company's official website blog
+  stays manual.
   Trigger phrases: "push blog to lark", "blog to lark doc", "/lark-blog".
 version: 0.1.0
 metadata:
@@ -21,12 +22,13 @@ metadata:
 Use this skill to turn a Markdown blog draft (with inline image placeholders)
 into a reviewable Lark doc. It posts the parsed blocks, then uploads each
 referenced PNG and binds it to the corresponding image block. The doc you
-get back is the review handoff; final publish to your CMS / public site is
-not in scope.
+get back is the review handoff; final publish to your company's official
+website blog is not in scope.
 
 ## Boundary
 
-- This skill writes a new Lark doc; it never edits the public site.
+- This skill writes a new Lark doc; it never edits the company's official
+  website blog.
 - Image uploads use the user OAuth token (from the `lark` skill). It will
   not work with a tenant-only token. Run `lark_auth.py` once first.
 - The script does not delete or overwrite anything; failed blocks are
