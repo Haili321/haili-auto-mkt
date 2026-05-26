@@ -10,6 +10,9 @@ dm-message.*.md
 lark_config.json
 .lark_tokens.json
 
+# Product Hunt token cache.
+.ph_tokens.json
+
 # Brevo / generic env files.
 .env
 .env.local

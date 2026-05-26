@@ -10,6 +10,7 @@ Reusable Claude Code / Codex skills for marketing outreach workflows.
 |---|---|---|
 | `brevo` | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. One email per recipient, audit logs per run. | Brevo HTTP API |
 | `lark` | Read and write Lark (Feishu international) docs, sheets, drive files, and messages. Ships a `LarkClient` library + one-time OAuth helper + JSON-to-sheet pusher. | Lark Open Platform API |
+| `ph` | Daily Product Hunt account-warming: pull the leaderboard, group by topic, surface cross-topic upvote suggestions so the account looks like a curious user rather than a single-vertical voter. | Product Hunt GraphQL API |
 | `xhs-dm` | Drive the desktop Rednote (Xiaohongshu) app through a daily DM cadence: pick N targets from a queue, search, like, follow, send a DM, mark the result. | macOS desktop app via computer-use |
 
 Each skill is self-contained: an `SKILL.md` Claude or Codex can read,
@@ -86,6 +87,10 @@ haili-auto-mkt/
 │   │   ├── scripts/        # lark_client.py + lark_auth.py + push_to_sheet.py
 │   │   ├── references/     # auth-flow + sheet-recipes
 │   │   └── templates/      # lark_config.example.json
+│   ├── ph/                 # Product Hunt daily warming
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # ph_daily.py
+│   │   └── templates/      # ph_tokens.example.json
 │   └── xhs-dm/             # Xiaohongshu desktop DM workflow
 │       ├── SKILL.md
 │       ├── scripts/        # pick_today.py + mark_sent.py

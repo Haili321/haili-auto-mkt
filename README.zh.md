@@ -10,6 +10,7 @@
 |---|---|---|
 | `brevo` | 通过 Brevo API 起草、空跑、测试发送、正式发送外联邮件。一封一发，每次都有审计日志。 | Brevo HTTP API |
 | `lark` | 读写 Lark / 飞书国际版的文档、表格、云盘、消息。自带 `LarkClient` 库 + OAuth 助手 + JSON 推到 sheet 的脚本。 | Lark 开放平台 API |
+| `ph` | Product Hunt 日常养号：拉日榜、按主题分组、推荐跨品类 upvote 目标，让账号看起来像有好奇心的真实用户而不是单一垂类的投票机。 | Product Hunt GraphQL API |
 | `xhs-dm` | 驱动桌面版小红书 (Rednote) 完成每日 DM 节奏：从队列里挑 N 个目标，搜索、点赞、关注、发私信、回写结果。 | macOS 桌面应用 + computer-use |
 
 每个技能都是自包含的：一份给 Claude / Codex 读的 `SKILL.md`，
@@ -82,6 +83,10 @@ haili-auto-mkt/
 │   │   ├── scripts/        # lark_client.py + lark_auth.py + push_to_sheet.py
 │   │   ├── references/     # 鉴权 + sheet 使用菜谱
 │   │   └── templates/      # lark_config.example.json
+│   ├── ph/                 # Product Hunt 日常养号
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # ph_daily.py
+│   │   └── templates/      # ph_tokens.example.json
 │   └── xhs-dm/             # 小红书桌面 DM 工作流
 │       ├── SKILL.md
 │       ├── scripts/        # pick_today.py + mark_sent.py
