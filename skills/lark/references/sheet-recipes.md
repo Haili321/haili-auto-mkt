@@ -12,7 +12,8 @@ The `spreadsheet_token` comes from the URL:
 `https://example.larksuite.com/sheets/<SPREADSHEET_TOKEN>?sheet=<TAB_ID>`.
 
 The `range` format is `<sheet name or tab id>!<A1 notation>`, e.g.
-`Sheet1!A1:D10` or `2zKVUc!O1:O100`.
+`Sheet1!A1:D10` or `<TAB_ID>!O1:O100` (where `<TAB_ID>` is the value of
+the `sheet=` query param in the URL).
 
 ## Read a range
 

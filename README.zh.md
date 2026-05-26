@@ -16,6 +16,22 @@
 `scripts/` 里的脚本，`references/` 里的参考文档，以及 `templates/` /
 `examples/` 里供你填空的模板。
 
+## 三者怎么联动
+
+Python 层面三个技能互相独立（不跨目录 import），但设计上可以靠 agent
+串成工作流。常见的联动链路：
+
+| 链路 | 流程 |
+|---|---|
+| `lark` → `brevo` | 从 Lark 文档或表格里读定稿外联文案 + 收件人，agent 按收件人拼出 Brevo request JSON，`brevo` 空跑 + 测试 + 正式发送。 |
+| `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，agent 调 `LarkClient.update_sheet_values` 在源表上把状态列打勾，让 Lark tracker 和 `queue.json` 同步。 |
+| `lark` → `xhs-dm` | agent 用 `LarkClient.get_sheet_values` 从 Lark 表读博主名单，转成 `queue.json` 结构，交给 `xhs-dm` 处理。 |
+| `brevo` + `xhs-dm` | 先跑 `brevo` 邮件外联，过一段时间未回复的 agent 自动转进 `xhs-dm` 的 queue.json，走第二条触达渠道。 |
+
+这些链路由 agent 读各自的 `SKILL.md` + references 后串起来，repo 里暂时
+没有 glue 脚本。如果某条链路用得多，自然下一步是在目标侧 skill 下加
+一个小 driver。
+
 ## 一行安装
 
 复制下面这句话发给 Claude Code 或 Codex：

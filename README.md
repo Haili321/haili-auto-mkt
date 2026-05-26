@@ -16,6 +16,24 @@ Each skill is self-contained: an `SKILL.md` Claude or Codex can read,
 scripts in `scripts/`, references in `references/`, and copy templates
 or examples for the user to fill in.
 
+## How the three skills fit together
+
+The skills are independent at the Python level (no cross-skill imports),
+but they're designed to compose under an agent that orchestrates them.
+Typical chains:
+
+| Chain | Flow |
+|---|---|
+| `lark` → `brevo` | Read finalised outreach copy and recipients from a Lark doc or sheet; the agent assembles a Brevo request JSON per recipient; `brevo` dry-runs, test-sends, then officially sends. |
+| `xhs-dm` → `lark` | After `pick_today.py` and a DM run, the agent calls `LarkClient.update_sheet_values` to tick a status column on the source sheet, keeping the Lark tracker in sync with `queue.json`. |
+| `lark` → `xhs-dm` | The agent reads a blogger list from a Lark sheet via `LarkClient.get_sheet_values`, transforms rows into the `queue.json` schema, and hands off to `xhs-dm`. |
+| `brevo` + `xhs-dm` | Run `brevo` outreach first; after a follow-up window, the agent moves no-reply recipients into the `xhs-dm` queue for a second channel. |
+
+These chains are orchestrated by the agent reading each skill's `SKILL.md`
+and the references; no glue scripts ship in this repo yet. If a chain
+becomes routine, the natural next step is to add a small driver script
+under the skill that owns the destination side.
+
 ## One-line install
 
 Paste this sentence to Claude Code or Codex:
