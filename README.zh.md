@@ -11,6 +11,7 @@
 | `brevo` | 通过 Brevo API 起草、空跑、测试发送、正式发送外联邮件。一封一发，每次都有审计日志。 | Brevo HTTP API |
 | `lark` | 读写 Lark / 飞书国际版的文档、表格、云盘、消息。自带 `LarkClient` 库 + OAuth 助手 + JSON 推到 sheet 的脚本。 | Lark 开放平台 API |
 | `lark-blog` | 把 Markdown 博客草稿（含 inline 图片占位）转成新的 Lark docx 供审阅。分批 push blocks、上传 PNG、绑定到图片 block。 | Lark 开放平台 API（依赖 `lark` 技能）|
+| `luma-event-promo` | Luma 活动从无到有的整套流程：调研同城同类活动、起草不像 AI 写的英文文案、建 Private 草稿、用 admin API 修 start_at / duration / capacity 的坑、调主题字体封面。 | Luma admin API + 浏览器 UI |
 | `ph` | Product Hunt 日常养号：拉日榜、按主题分组、推荐跨品类 upvote 目标，让账号看起来像有好奇心的真实用户而不是单一垂类的投票机。 | Product Hunt GraphQL API |
 | `xhs-dm` | 驱动桌面版小红书 (Rednote) 完成每日 DM 节奏：从队列里挑 N 个目标，搜索、点赞、关注、发私信、回写结果。 | macOS 桌面应用 + computer-use |
 
@@ -89,6 +90,10 @@ haili-auto-mkt/
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # push_blog_to_lark.py
 │   │   └── examples/       # sample-blog.md
+│   ├── luma-event-promo/   # Luma 活动从无到有发布 + polish
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # update_event.py + build_description.py
+│   │   └── references/     # api-cheatsheet + copy-templates + event styles + gotchas
 │   ├── ph/                 # Product Hunt 日常养号
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # ph_daily.py

@@ -13,6 +13,10 @@ lark_config.json
 # Product Hunt token cache.
 .ph_tokens.json
 
+# Luma admin API cookies + event id pinned at home dir.
+.luma_cookie
+.luma_event_id
+
 # Brevo / generic env files.
 .env
 .env.local

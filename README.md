@@ -11,6 +11,7 @@ Reusable Claude Code / Codex skills for marketing outreach workflows.
 | `brevo` | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. One email per recipient, audit logs per run. | Brevo HTTP API |
 | `lark` | Read and write Lark (Feishu international) docs, sheets, drive files, and messages. Ships a `LarkClient` library + one-time OAuth helper + JSON-to-sheet pusher. | Lark Open Platform API |
 | `lark-blog` | Turn a Markdown blog draft (with inline image placeholders) into a new Lark docx for review. Posts blocks in batches, uploads PNGs, binds each to its image block. | Lark Open Platform API (depends on `lark` skill) |
+| `luma-event-promo` | End-to-end Luma event launch: research comparable events, draft non-AI-sounding copy, create a Private draft, fix Luma's start_at / duration / capacity traps via the admin API, polish theme, font, cover. | Luma admin API + browser UI |
 | `ph` | Daily Product Hunt account-warming: pull the leaderboard, group by topic, surface cross-topic upvote suggestions so the account looks like a curious user rather than a single-vertical voter. | Product Hunt GraphQL API |
 | `xhs-dm` | Drive the desktop Rednote (Xiaohongshu) app through a daily DM cadence: pick N targets from a queue, search, like, follow, send a DM, mark the result. | macOS desktop app via computer-use |
 
@@ -93,6 +94,10 @@ haili-auto-mkt/
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # push_blog_to_lark.py
 │   │   └── examples/       # sample-blog.md
+│   ├── luma-event-promo/   # End-to-end Luma event launch + polish
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # update_event.py + build_description.py
+│   │   └── references/     # api-cheatsheet + copy-templates + event styles + gotchas
 │   ├── ph/                 # Product Hunt daily warming
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # ph_daily.py
