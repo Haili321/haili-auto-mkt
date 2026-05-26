@@ -19,18 +19,40 @@
 `scripts/` 里的脚本，`references/` 里的参考文档，以及 `templates/` /
 `examples/` 里供你填空的模板。
 
-## 三者怎么联动
+## 技能怎么联动
 
-Python 层面三个技能互相独立（不跨目录 import），但设计上可以靠 agent
-串成工作流。常见的联动链路：
+Python 层面所有技能互相独立（不跨目录 import），但设计上可以靠 agent
+串成工作流。按工作场景分组的常见链路：
+
+外联（Lark / Brevo / XHS）：
 
 | 链路 | 流程 |
 |---|---|
 | `lark` → `brevo` | 从 Lark 文档或表格里读定稿外联文案 + 收件人，agent 按收件人拼出 Brevo request JSON，`brevo` 空跑 + 测试 + 正式发送。 |
-| `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，agent 调 `LarkClient.update_sheet_values` 在源表上把状态列打勾，让 Lark tracker 和 `queue.json` 同步。 |
-| 草稿 → `lark-blog` → 审稿人 | 作者写完 Markdown 博客草稿；`lark-blog` 推成 Lark docx 含 inline 图片；审稿人在 Lark 里评论；定稿后作者手工发到 CMS。 |
 | `lark` → `xhs-dm` | agent 用 `LarkClient.get_sheet_values` 从 Lark 表读博主名单，转成 `queue.json` 结构，交给 `xhs-dm` 处理。 |
+| `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，agent 调 `LarkClient.update_sheet_values` 在源表上把状态列打勾，让 Lark tracker 和 `queue.json` 同步。 |
 | `brevo` + `xhs-dm` | 先跑 `brevo` 邮件外联，过一段时间未回复的 agent 自动转进 `xhs-dm` 的 queue.json，走第二条触达渠道。 |
+
+内容（博客草稿）：
+
+| 链路 | 流程 |
+|---|---|
+| 草稿 → `lark-blog` → 审稿人 | 作者写完 Markdown 博客草稿；`lark-blog` 推成 Lark docx 含 inline 图片；审稿人在 Lark 里评论；定稿后作者手工发到 CMS。 |
+
+活动（Luma）：
+
+| 链路 | 流程 |
+|---|---|
+| `luma-event-promo` → `brevo` | 活动结束后 agent 用 Luma admin API 导 RSVP 名单，按收件人拼 Brevo request，`brevo` 一封一发感谢 + 后续资料邮件。 |
+| `luma-event-promo` → `lark` | agent 把实时 RSVP / 候补人数同步到 Lark sheet 某一列，团队不用登 Luma 就能看报名进度。 |
+| `luma-event-promo` → `lark-blog` | 活动结束后 agent 起草 recap markdown（照片、出席率、关键时刻），`lark-blog` 推成 Lark docx 供 team 审，过后再发公网 CMS。 |
+
+账号存在感（PH）：
+
+| 链路 | 流程 |
+|---|---|
+| `ph` → `lark` | agent 拉当日 PH 日榜、挑跨品类目标，把选择（含理由）写到 Lark sheet，让日常动作有审计记录。 |
+| `ph` + 外联 | `ph` 拉到值得联系的 maker 时，agent 可以把他们的 handle 喂给 `brevo`（如果有邮箱）或者放进 `xhs-dm` 队列（如果在小红书上）。 |
 
 这些链路由 agent 读各自的 `SKILL.md` + references 后串起来，repo 里暂时
 没有 glue 脚本。如果某条链路用得多，自然下一步是在目标侧 skill 下加

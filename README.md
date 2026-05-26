@@ -19,19 +19,41 @@ Each skill is self-contained: an `SKILL.md` Claude or Codex can read,
 scripts in `scripts/`, references in `references/`, and copy templates
 or examples for the user to fill in.
 
-## How the three skills fit together
+## How the skills compose
 
 The skills are independent at the Python level (no cross-skill imports),
 but they're designed to compose under an agent that orchestrates them.
-Typical chains:
+Typical chains, grouped by the workflow they enable:
+
+Outreach (Lark / Brevo / XHS):
 
 | Chain | Flow |
 |---|---|
 | `lark` → `brevo` | Read finalised outreach copy and recipients from a Lark doc or sheet; the agent assembles a Brevo request JSON per recipient; `brevo` dry-runs, test-sends, then officially sends. |
-| `xhs-dm` → `lark` | After `pick_today.py` and a DM run, the agent calls `LarkClient.update_sheet_values` to tick a status column on the source sheet, keeping the Lark tracker in sync with `queue.json`. |
-| draft → `lark-blog` → reviewers | An author finalises a Markdown blog draft; `lark-blog` posts it as a Lark docx with inline images; reviewers comment in Lark; the author publishes to the CMS once approved. |
 | `lark` → `xhs-dm` | The agent reads a blogger list from a Lark sheet via `LarkClient.get_sheet_values`, transforms rows into the `queue.json` schema, and hands off to `xhs-dm`. |
-| `brevo` + `xhs-dm` | Run `brevo` outreach first; after a follow-up window, the agent moves no-reply recipients into the `xhs-dm` queue for a second channel. |
+| `xhs-dm` → `lark` | After `pick_today.py` and a DM run, the agent calls `LarkClient.update_sheet_values` to tick a status column on the source sheet, keeping the Lark tracker in sync with `queue.json`. |
+| `brevo` + `xhs-dm` | Run `brevo` email outreach first; after a follow-up window, the agent moves no-reply recipients into the `xhs-dm` queue for a second channel. |
+
+Content (blog drafts):
+
+| Chain | Flow |
+|---|---|
+| draft → `lark-blog` → reviewers | An author finalises a Markdown blog draft; `lark-blog` posts it as a Lark docx with inline images; reviewers comment in Lark; the author publishes to the CMS once approved. |
+
+Events (Luma):
+
+| Chain | Flow |
+|---|---|
+| `luma-event-promo` → `brevo` | After the event, the agent exports the RSVP list (via Luma's admin API), assembles a per-attendee Brevo request, and `brevo` sends a thank-you + follow-up resource email one recipient at a time. |
+| `luma-event-promo` → `lark` | The agent syncs the live RSVP / waitlist count into a Lark sheet column so the team can watch fill-rate without logging into Luma. |
+| `luma-event-promo` → `lark-blog` | After the event, the agent drafts a recap Markdown (photos, attendance, key moments) and `lark-blog` posts it as a Lark docx for review before the public CMS publish. |
+
+Account presence (PH):
+
+| Chain | Flow |
+|---|---|
+| `ph` → `lark` | The agent pulls the day's PH leaderboard, picks cross-topic targets, then writes the picks (with reasoning) into a Lark sheet so daily activity is auditable. |
+| `ph` + outreach | When `ph` surfaces a maker worth contacting, the agent can pass their handle into `brevo` (if there's an email on file) or queue them for `xhs-dm` (if they're on Xiaohongshu). |
 
 These chains are orchestrated by the agent reading each skill's `SKILL.md`
 and the references; no glue scripts ship in this repo yet. If a chain
