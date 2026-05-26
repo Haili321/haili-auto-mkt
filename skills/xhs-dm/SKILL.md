@@ -66,13 +66,15 @@ Treat the path inputs as untrusted: confirm with the user before writing.
 | `references/queue-schema.md` | Schema of `queue.json` and lifecycle states. |
 | `templates/queue.example.json` | Example queue with 3 fake bloggers. |
 | `templates/dm-message.example.md` | Placeholder DM copy for the user to fill. |
+| `queue-sourcing.md` | How we build and maintain the upstream blogger list. |
 
 ## Setup checklist for new users
 
 Before running the first time:
 
 1. Copy `templates/queue.example.json` to your working dir, replace with your
-   real targets (see `references/queue-schema.md`).
+   real targets (see `references/queue-schema.md` for the row shape and
+   `queue-sourcing.md` for how we build the upstream list).
 2. Copy `templates/dm-message.example.md`, write the DM you want to send.
 3. Make sure the desktop Rednote app is installed and logged in as the account
    you want to send from.
