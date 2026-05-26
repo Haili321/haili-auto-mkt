@@ -83,12 +83,6 @@ haili-auto-mkt/
   built in. Wrap `mark_sent.py` in your own driver if you want to mirror
   results to an external sheet.
 
-## Inspirations
-
-The folder layout is inspired by the MIT-licensed Yinch Auto MKT project
-([NetMindAI-Open/yinch-auto-mkt](https://github.com/NetMindAI-Open/yinch-auto-mkt)),
-trimmed to a single skill so it's easy to fork and extend.
-
 ## License
 
 MIT. See [LICENSE](./LICENSE).

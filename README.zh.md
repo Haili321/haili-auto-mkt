@@ -78,12 +78,6 @@ haili-auto-mkt/
 - 不内置外部集成 (Lark / Notion / Airtable)。如果想把结果同步到外部
   表格，自己写个 driver 脚本包一层 `mark_sent.py` 就行。
 
-## 来源
-
-目录结构借鉴了 MIT 许可证的 Yinch Auto MKT 项目
-([NetMindAI-Open/yinch-auto-mkt](https://github.com/NetMindAI-Open/yinch-auto-mkt))，
-精简为单技能版本，方便 fork 和扩展。
-
 ## 许可证
 
 MIT，见 [LICENSE](./LICENSE)。
