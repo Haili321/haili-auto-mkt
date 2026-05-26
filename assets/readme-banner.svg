@@ -1,0 +1,138 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="haili-auto-mkt: a terminal showing six Claude Code skills">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="window-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2233"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <style>
+      .mono   { font-family: ui-monospace, "SF Mono", Menlo, Consolas, Monaco, monospace; font-weight: 500; }
+      .label  { font-family: ui-monospace, "SF Mono", Menlo, Consolas, Monaco, monospace; font-weight: 600; }
+      .prompt { fill: #34d399; }
+      .cmd    { fill: #60a5fa; }
+      .comment{ fill: #94a3b8; }
+      .text   { fill: #e2e8f0; }
+      .title  { fill: #cbd5e1; }
+      .accent { fill: #f472b6; }
+      .sub    { fill: #a3b3c9; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- soft grid -->
+  <g opacity="0.06" stroke="#60a5fa" stroke-width="1">
+    <path d="M0 80 H1280 M0 160 H1280 M0 240 H1280 M0 320 H1280 M0 400 H1280 M0 480 H1280 M0 560 H1280"/>
+    <path d="M80 0 V640 M240 0 V640 M400 0 V640 M560 0 V640 M720 0 V640 M880 0 V640 M1040 0 V640 M1200 0 V640"/>
+  </g>
+
+  <!-- terminal window -->
+  <g>
+    <!-- shadow -->
+    <rect x="64" y="64" width="1152" height="512" rx="14" fill="#000" opacity="0.35"/>
+    <!-- window body -->
+    <rect x="56" y="56" width="1152" height="512" rx="14" fill="url(#window-grad)" stroke="#1f2a3d" stroke-width="1"/>
+    <!-- title bar -->
+    <rect x="56" y="56" width="1152" height="48" rx="14" fill="#1f2937"/>
+    <rect x="56" y="92" width="1152" height="12" fill="#1f2937"/>
+    <!-- traffic lights -->
+    <circle cx="86"  cy="80" r="7.5" fill="#ff5f56"/>
+    <circle cx="110" cy="80" r="7.5" fill="#ffbd2e"/>
+    <circle cx="134" cy="80" r="7.5" fill="#27c93f"/>
+    <!-- title bar label -->
+    <text x="632" y="86" class="label title" font-size="16" text-anchor="middle">haili-auto-mkt — claude code / codex skills</text>
+  </g>
+
+  <!-- terminal content -->
+  <g class="mono" font-size="24" transform="translate(104, 160)">
+
+    <!-- line 1: /brevo -->
+    <g opacity="0">
+      <text>
+        <tspan class="prompt">$</tspan>
+        <tspan class="cmd" dx="14">/brevo</tspan>
+        <tspan class="comment" dx="120"># transactional outreach emails, one at a time</tspan>
+      </text>
+      <animate attributeName="opacity" from="0" to="1" begin="0.2s" dur="0.4s" fill="freeze"/>
+    </g>
+
+    <!-- line 2: /lark -->
+    <g opacity="0" transform="translate(0, 52)">
+      <text>
+        <tspan class="prompt">$</tspan>
+        <tspan class="cmd" dx="14">/lark</tspan>
+        <tspan class="comment" dx="140"># Feishu docs, sheets, drive, messages</tspan>
+      </text>
+      <animate attributeName="opacity" from="0" to="1" begin="0.7s" dur="0.4s" fill="freeze"/>
+    </g>
+
+    <!-- line 3: /lark-blog -->
+    <g opacity="0" transform="translate(0, 104)">
+      <text>
+        <tspan class="prompt">$</tspan>
+        <tspan class="cmd" dx="14">/lark-blog</tspan>
+        <tspan class="comment" dx="86"># markdown blog -&gt; Lark docx with inline images</tspan>
+      </text>
+      <animate attributeName="opacity" from="0" to="1" begin="1.2s" dur="0.4s" fill="freeze"/>
+    </g>
+
+    <!-- line 4: /luma-event-promo -->
+    <g opacity="0" transform="translate(0, 156)">
+      <text>
+        <tspan class="prompt">$</tspan>
+        <tspan class="cmd" dx="14">/luma-event-promo</tspan>
+        <tspan class="comment" dx="20"># end-to-end Luma event launch + polish</tspan>
+      </text>
+      <animate attributeName="opacity" from="0" to="1" begin="1.7s" dur="0.4s" fill="freeze"/>
+    </g>
+
+    <!-- line 5: /ph -->
+    <g opacity="0" transform="translate(0, 208)">
+      <text>
+        <tspan class="prompt">$</tspan>
+        <tspan class="cmd" dx="14">/ph</tspan>
+        <tspan class="comment" dx="166"># daily Product Hunt account warming</tspan>
+      </text>
+      <animate attributeName="opacity" from="0" to="1" begin="2.2s" dur="0.4s" fill="freeze"/>
+    </g>
+
+    <!-- line 6: /xhs-dm -->
+    <g opacity="0" transform="translate(0, 260)">
+      <text>
+        <tspan class="prompt">$</tspan>
+        <tspan class="cmd" dx="14">/xhs-dm</tspan>
+        <tspan class="comment" dx="118"># Xiaohongshu desktop DM workflow</tspan>
+      </text>
+      <animate attributeName="opacity" from="0" to="1" begin="2.7s" dur="0.4s" fill="freeze"/>
+    </g>
+
+    <!-- final prompt + blinking cursor -->
+    <g opacity="0" transform="translate(0, 320)">
+      <text>
+        <tspan class="prompt">$</tspan>
+      </text>
+      <rect x="22" y="-22" width="14" height="28" fill="#e2e8f0">
+        <animate attributeName="opacity" values="1;0;1" dur="1.1s" begin="3.4s" repeatCount="indefinite"/>
+      </rect>
+      <animate attributeName="opacity" from="0" to="1" begin="3.2s" dur="0.3s" fill="freeze"/>
+    </g>
+
+  </g>
+
+  <!-- footer subtitle -->
+  <g opacity="0">
+    <text x="640" y="530" class="mono sub" font-size="18" text-anchor="middle">
+      <tspan>6 reusable skills</tspan>
+      <tspan class="accent" dx="10">·</tspan>
+      <tspan dx="10">install once</tspan>
+      <tspan class="accent" dx="10">·</tspan>
+      <tspan dx="10">compose them anywhere</tspan>
+    </text>
+    <animate attributeName="opacity" from="0" to="0.9" begin="3.5s" dur="0.6s" fill="freeze"/>
+  </g>
+
+</svg>

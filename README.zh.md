@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/readme-banner.svg" alt="haili-auto-mkt banner" width="100%" />
+</p>
+
 # haili-auto-mkt
 
 可复用的 Claude Code / Codex 营销外联工作流技能集。

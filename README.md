@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/readme-banner.svg" alt="haili-auto-mkt banner" width="100%" />
+</p>
+
 # haili-auto-mkt
 
 Reusable Claude Code / Codex skills for marketing outreach workflows.
