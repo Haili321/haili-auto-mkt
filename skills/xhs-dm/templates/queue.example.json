@@ -1,0 +1,44 @@
+{
+  "created_at": "2026-01-01T00:00:00Z",
+  "queue_size": 3,
+  "description": "Example queue with three fictional bloggers. Replace before running for real.",
+  "targets": [
+    {
+      "row": 2,
+      "name": "示例博主A",
+      "profile_url": "https://www.xiaohongshu.com/user/profile/REPLACE_ME_A",
+      "genre": "lifestyle/example",
+      "followers": 100000,
+      "top_work": "Example pinned note title goes here",
+      "tier": "S",
+      "tier_score": "10 (S)",
+      "contact_hint": "-",
+      "status": "pending"
+    },
+    {
+      "row": 3,
+      "name": "示例博主B",
+      "profile_url": "https://www.xiaohongshu.com/user/profile/REPLACE_ME_B",
+      "genre": "tech/example",
+      "followers": 50000,
+      "top_work": "Another example note title",
+      "tier": "A",
+      "tier_score": "8 (A)",
+      "contact_hint": "hello@example.com",
+      "status": "pending"
+    },
+    {
+      "row": 4,
+      "name": "示例博主C",
+      "profile_url": "https://www.xiaohongshu.com/user/profile/REPLACE_ME_C",
+      "genre": "lifestyle/example",
+      "followers": 20000,
+      "top_work": "Yet another example note",
+      "tier": "B",
+      "tier_score": "5 (B)",
+      "contact_hint": "-",
+      "status": "pending"
+    }
+  ],
+  "sent": []
+}

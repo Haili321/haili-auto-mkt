@@ -1,0 +1,27 @@
+# Real queues and DM copy must never be committed.
+queue.json
+queue.*.json
+!skills/*/templates/queue.example.json
+dm-message.md
+dm-message.*.md
+!skills/*/templates/dm-message.example.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Local notes
+.local/
+scratch/
