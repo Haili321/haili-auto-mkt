@@ -1,17 +1,12 @@
 ---
 name: luma-event-promo
 description: |
-  End-to-end workflow for launching a polished event on Luma. Research
-  comparable events in the target city, draft conversational English copy
-  that doesn't read like AI slop, create the event as a Private (unlisted)
-  draft via Luma's admin API, fix the time and duration traps that bite
-  every first-timer, structure the description with ProseMirror headings
-  and selective bold, polish theme, font, and cover photo. Trigger on
-  requests like "post a workshop on luma", "make a luma event for our
-  meetup", "fix the time on my luma event", or any ask that touches Luma's
-  event publishing surface. Also use this when the user has an event idea
-  they want help shaping into Luma-ready copy, not only when they've
-  already decided to publish.
+  End-to-end Luma event launch: research comparable events in the target
+  city, draft copy that doesn't read like AI slop, create a Private draft
+  via the admin API, fix the start_at / duration / capacity traps, and
+  polish theme, font, and cover. Use this whenever the user wants to
+  publish, edit, or shape an event for Luma. Trigger phrases: "post a
+  workshop on luma", "fix my luma event", "/luma-event-promo".
 version: 0.1.0
 metadata:
   requires:

@@ -4,9 +4,35 @@
 
 # haili-auto-mkt
 
+<p align="center">
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/skills-6-14b8a6.svg?style=flat-square" alt="6 skills">
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776ab.svg?style=flat-square" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Claude%20Code-ready-0ea5e9.svg?style=flat-square" alt="Claude Code ready">
+  <img src="https://img.shields.io/badge/Codex-ready-2563eb.svg?style=flat-square" alt="Codex ready">
+</p>
+
 Reusable Claude Code / Codex skills for marketing outreach workflows.
 
 [中文版 README](./README.zh.md)
+
+## Quick start
+
+Want to see one work in 30 seconds? Try `ph`, the lightest skill in the
+set; all it needs is a Product Hunt developer token.
+
+```bash
+git clone https://github.com/Haili321/haili-auto-mkt
+cd haili-auto-mkt
+export PH_ACCESS_TOKEN=your-token-here
+python3 skills/ph/scripts/ph_daily.py --picks 5
+```
+
+You get the day's PH leaderboard grouped by topic plus 5 cross-category
+upvote suggestions. No agent required.
+
+For the full Claude Code / Codex experience, jump to
+[One-line install](#one-line-install).
 
 ## What's in this repo
 
@@ -21,7 +47,7 @@ Reusable Claude Code / Codex skills for marketing outreach workflows.
 
 Each skill is self-contained: an `SKILL.md` Claude or Codex can read,
 scripts in `scripts/`, references in `references/`, and copy templates
-or examples for the user to fill in.
+in `templates/` for the user to fill in.
 
 ## How the skills compose
 
@@ -86,8 +112,54 @@ elsewhere.
 
 ## Direct shell usage
 
-You can also call the scripts without going through an agent. From a local
-clone:
+You can also call the scripts without going through an agent. From a
+local clone, the minimal command per skill:
+
+### brevo
+
+```bash
+export BREVO_API_KEY=your-key-here
+cp skills/brevo/templates/minimal_request.example.json ./email_request.json
+# Edit ./email_request.json with your real sender + recipients + copy.
+bash skills/brevo/scripts/bootstrap_runtime.sh --request-file ./email_request.json
+# Dry-run output appears under ./brevo-output/<timestamp>/.
+```
+
+### lark
+
+```bash
+cp skills/lark/templates/lark_config.example.json ./lark_config.json
+# Edit with your real app_id + app_secret.
+python3 skills/lark/scripts/lark_auth.py   # one-time browser OAuth
+python3 skills/lark/scripts/push_to_sheet.py \
+  --sheet-token SHEET_TOKEN --range 'Sheet1!A1' --json-file ./rows.json
+```
+
+### lark-blog
+
+```bash
+python3 skills/lark-blog/scripts/push_blog_to_lark.py \
+  --md ./post.md --images-dir ./images --title 'Draft v1'
+# Depends on the lark skill being installed alongside; see SKILL.md.
+```
+
+### luma-event-promo
+
+```bash
+export LUMA_COOKIE='luma.did=...; luma.auth-session-key=usr-...'
+export LUMA_EVENT_ID='evt-XXXXXXXXXXXXX'
+python3 skills/luma-event-promo/scripts/update_event.py --get
+# To edit: pass --start-at / --duration / --capacity / --tint-color etc.
+```
+
+### ph
+
+```bash
+export PH_ACCESS_TOKEN=your-token-here
+python3 skills/ph/scripts/ph_daily.py --picks 5
+```
+
+### xhs-dm
 
 ```bash
 cp skills/xhs-dm/templates/queue.example.json ./queue.json
@@ -109,7 +181,7 @@ haili-auto-mkt/
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # run_brevo_email.py + bootstrap wrapper
 │   │   ├── references/     # request schema
-│   │   ├── examples/       # minimal + outreach request templates
+│   │   ├── templates/      # minimal + outreach request templates
 │   │   └── .env.example
 │   ├── lark/               # Lark / Feishu international API
 │   │   ├── SKILL.md
@@ -119,7 +191,7 @@ haili-auto-mkt/
 │   ├── lark-blog/          # Markdown blog -> Lark docx with inline images
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # push_blog_to_lark.py
-│   │   └── examples/       # sample-blog.md
+│   │   └── templates/      # sample-blog.md
 │   ├── luma-event-promo/   # End-to-end Luma event launch + polish
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # update_event.py + build_description.py

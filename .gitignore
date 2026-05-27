@@ -26,15 +26,15 @@ lark_config.json
 brevo-output/
 yinch-auto-mkt-output/
 
-# Real request files (keep only *.example.json under examples/).
+# Real request files (keep only *.example.json under templates/).
 *_request.json
-!skills/*/examples/*.example.json
+!skills/*/templates/*.example.json
 
 # Blog drafts and image bundles the user keeps next to the lark-blog skill.
 *_draft.md
 *_launch.md
 blog-images/
-!skills/lark-blog/examples/**
+!skills/lark-blog/templates/**
 
 # Python
 __pycache__/

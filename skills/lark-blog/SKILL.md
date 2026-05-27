@@ -92,8 +92,8 @@ Optional flags:
 | File | Purpose |
 |---|---|
 | `scripts/push_blog_to_lark.py` | Markdown parser, block builder, image uploader. |
-| `examples/sample-blog.md` | A fictional blog showing every supported Markdown construct. |
-| `examples/images/` | (User adds real PNGs here matching the sample placeholders.) |
+| `templates/sample-blog.md` | A fictional blog showing every supported Markdown construct. |
+| `templates/images/` | (User adds real PNGs here matching the sample placeholders.) |
 
 ## Safety rules
 

@@ -109,8 +109,8 @@ Customise the root with `--output-root`.
 | `scripts/run_brevo_email.py` | Renderer + sender. Zero-dependency Python 3. |
 | `scripts/bootstrap_runtime.sh` | Thin wrapper that resolves the script path. |
 | `references/request-schema.md` | Full request JSON schema with field rules. |
-| `examples/minimal_request.example.json` | Smallest working request. |
-| `examples/outreach_request.example.json` | Multi-section outreach request. |
+| `templates/minimal_request.example.json` | Smallest working request. |
+| `templates/outreach_request.example.json` | Multi-section outreach request. |
 | `.env.example` | Template env file. Copy to `.env.local` and fill in. |
 
 ## Safety rules

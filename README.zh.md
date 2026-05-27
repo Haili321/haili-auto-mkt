@@ -4,9 +4,35 @@
 
 # haili-auto-mkt
 
+<p align="center">
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/skills-6-14b8a6.svg?style=flat-square" alt="6 skills">
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776ab.svg?style=flat-square" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Claude%20Code-ready-0ea5e9.svg?style=flat-square" alt="Claude Code ready">
+  <img src="https://img.shields.io/badge/Codex-ready-2563eb.svg?style=flat-square" alt="Codex ready">
+</p>
+
 可复用的 Claude Code / Codex 营销外联工作流技能集。
 
 [English README](./README.md)
+
+## 快速上手
+
+想 30 秒看一个跑起来？试 `ph`，整个技能集里最轻的一个，只需要一个
+Product Hunt 开发者 token。
+
+```bash
+git clone https://github.com/Haili321/haili-auto-mkt
+cd haili-auto-mkt
+export PH_ACCESS_TOKEN=your-token-here
+python3 skills/ph/scripts/ph_daily.py --picks 5
+```
+
+你会拿到当日 PH 日榜按主题分组的输出 + 5 个跨品类的 upvote 建议。
+不需要 agent。
+
+想走完整的 Claude Code / Codex 流程，看
+[一行安装](#一行安装)。
 
 ## 仓库内容
 
@@ -20,8 +46,8 @@
 | `xhs-dm` | 驱动桌面版小红书 (Rednote) 完成每日 DM 节奏：从队列里挑 N 个目标，搜索、点赞、关注、发私信、回写结果。 | macOS 桌面应用 + computer-use |
 
 每个技能都是自包含的：一份给 Claude / Codex 读的 `SKILL.md`，
-`scripts/` 里的脚本，`references/` 里的参考文档，以及 `templates/` /
-`examples/` 里供你填空的模板。
+`scripts/` 里的脚本，`references/` 里的参考文档，以及 `templates/`
+里供你填空的模板。
 
 ## 技能怎么联动
 
@@ -83,15 +109,61 @@ curl -fsSL https://raw.githubusercontent.com/Haili321/haili-auto-mkt/main/instal
 
 ## 直接命令行使用
 
-不走 agent 也能用。本地 clone 之后：
+不走 agent 也能用。本地 clone 之后，每个 skill 的最小调用如下。
+
+### brevo
+
+```bash
+export BREVO_API_KEY=your-key-here
+cp skills/brevo/templates/minimal_request.example.json ./email_request.json
+# 把 ./email_request.json 改成你的真实 sender + recipients + 文案。
+bash skills/brevo/scripts/bootstrap_runtime.sh --request-file ./email_request.json
+# 空跑输出在 ./brevo-output/<timestamp>/ 下。
+```
+
+### lark
+
+```bash
+cp skills/lark/templates/lark_config.example.json ./lark_config.json
+# 改成你真的 app_id + app_secret。
+python3 skills/lark/scripts/lark_auth.py    # 一次性浏览器 OAuth
+python3 skills/lark/scripts/push_to_sheet.py \
+  --sheet-token SHEET_TOKEN --range 'Sheet1!A1' --json-file ./rows.json
+```
+
+### lark-blog
+
+```bash
+python3 skills/lark-blog/scripts/push_blog_to_lark.py \
+  --md ./post.md --images-dir ./images --title 'Draft v1'
+# 依赖 lark skill 装在同级；详见 SKILL.md。
+```
+
+### luma-event-promo
+
+```bash
+export LUMA_COOKIE='luma.did=...; luma.auth-session-key=usr-...'
+export LUMA_EVENT_ID='evt-XXXXXXXXXXXXX'
+python3 skills/luma-event-promo/scripts/update_event.py --get
+# 编辑：用 --start-at / --duration / --capacity / --tint-color 等参数。
+```
+
+### ph
+
+```bash
+export PH_ACCESS_TOKEN=your-token-here
+python3 skills/ph/scripts/ph_daily.py --picks 5
+```
+
+### xhs-dm
 
 ```bash
 cp skills/xhs-dm/templates/queue.example.json ./queue.json
 cp skills/xhs-dm/templates/dm-message.example.md ./dm-message.md
-# 把两个文件改成你自己的真实目标和文案
+# 把两个文件改成你自己的真实目标和文案。
 
 python3 skills/xhs-dm/scripts/pick_today.py --queue ./queue.json --count 2
-# 然后在 Rednote 里按 SOP 手动执行,或者让 agent 跑
+# 然后在 Rednote 里按 SOP 手动执行，或者让 agent 跑
 python3 skills/xhs-dm/scripts/mark_sent.py --queue ./queue.json 2 3
 ```
 
@@ -105,7 +177,7 @@ haili-auto-mkt/
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # run_brevo_email.py + 启动 wrapper
 │   │   ├── references/     # 请求 schema
-│   │   ├── examples/       # 最小 + 外联请求模板
+│   │   ├── templates/      # 最小 + 外联请求模板
 │   │   └── .env.example
 │   ├── lark/               # Lark / 飞书国际版 API
 │   │   ├── SKILL.md
@@ -115,7 +187,7 @@ haili-auto-mkt/
 │   ├── lark-blog/          # Markdown 博客 -> Lark docx 含 inline 图片
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # push_blog_to_lark.py
-│   │   └── examples/       # sample-blog.md
+│   │   └── templates/      # sample-blog.md
 │   ├── luma-event-promo/   # Luma 活动从无到有发布 + polish
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # update_event.py + build_description.py

@@ -1,7 +1,7 @@
 # Brevo Email Request Schema
 
 Each invocation of the skill consumes one JSON file describing one email.
-Schema below; see `examples/` for working samples.
+Schema below; see `templates/` for working samples.
 
 ## Minimal request
 
