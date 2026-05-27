@@ -16,6 +16,15 @@ Reusable Claude Code / Codex skills for marketing outreach workflows.
 
 [中文版 README](./README.zh.md)
 
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#whats-in-this-repo">Skills</a> ·
+  <a href="#how-the-skills-compose">Compose</a> ·
+  <a href="#one-line-install">Install</a> ·
+  <a href="#direct-shell-usage">Shell usage</a> ·
+  <a href="#layout">Layout</a>
+</p>
+
 ## Quick start
 
 Want to see one work in 30 seconds? Try `ph`, the lightest skill in the

@@ -74,6 +74,30 @@ skills/brevo/scripts/bootstrap_runtime.sh \
   --send
 ```
 
+## Setup
+
+1. Sign in to [Brevo](https://www.brevo.com/) and verify your sender
+   address (Senders, Domains & Dedicated IPs -> Senders). Brevo will not
+   send mail from an unverified address.
+2. Create an API key at `https://app.brevo.com/settings/keys/api`. Pick
+   "v3 Transactional" scope; you do not need full account access.
+3. Export it in your shell, or write it to a local `.env.local` (which
+   is gitignored):
+   ```bash
+   export BREVO_API_KEY=xkeysib-...
+   # or:
+   cp skills/brevo/.env.example .env.local
+   # then edit .env.local with your key
+   ```
+4. Sanity-check the credential without sending an email:
+   ```bash
+   skills/brevo/scripts/bootstrap_runtime.sh --check-account
+   ```
+   A 200 response means the key works.
+
+Free Brevo accounts get 300 emails / day; transactional outreach at
+that volume is fine for testing. Upgrade if you need more.
+
 ## Workflow for the assistant
 
 1. Collect or draft the email copy. If the user has finalised copy in a

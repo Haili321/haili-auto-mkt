@@ -55,6 +55,41 @@ then use the API for everything else. Do not try to set `start_at` /
 `end_at` through JS on the create form (it silently fails). Do not try
 to upload images through Chrome MCP `file_upload` (it is blocked).
 
+## Setup
+
+The admin API authenticates with two cookies pulled from a signed-in
+browser. The browser stays the source of truth; this skill borrows its
+session.
+
+1. Sign in to [luma.com](https://luma.com) in any browser as the user
+   who owns the event.
+2. Open DevTools (Cmd+Option+I on macOS), go to Application -> Cookies
+   -> `https://luma.com`. Copy these two:
+   - `luma.did` (random device id)
+   - `luma.auth-session-key` (looks like `usr-<user-id>.<session-secret>`)
+3. Combine them into one cookie string and either export it or write it
+   to `~/.luma_cookie` (gitignored):
+   ```bash
+   export LUMA_COOKIE='luma.did=...; luma.auth-session-key=usr-XXX.YYY'
+   # or:
+   printf 'luma.did=...; luma.auth-session-key=usr-XXX.YYY\n' > ~/.luma_cookie
+   ```
+4. Find the event api id. After creating an event, the manage URL is
+   `https://luma.com/event/manage/evt-XXXXXXXXXXXXX`. Copy the
+   `evt-XXXXXXXXXXXXX` part.
+   ```bash
+   export LUMA_EVENT_ID=evt-XXXXXXXXXXXXX
+   # or:
+   printf 'evt-XXXXXXXXXXXXX\n' > ~/.luma_event_id
+   ```
+5. Sanity-check by fetching the current event state:
+   ```bash
+   python3 skills/luma-event-promo/scripts/update_event.py --get
+   ```
+
+Sessions are long-lived (weeks or months) unless the user logs out or
+terminates them. If the cookie stops working, repeat step 2 to refresh.
+
 ## When to invoke this skill
 
 Trigger eagerly. The skill is useful whether the user is brainstorming
