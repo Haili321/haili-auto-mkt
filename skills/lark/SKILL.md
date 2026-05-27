@@ -5,7 +5,6 @@ description: |
   and messages from Python. Supports both tenant access tokens (app-only,
   no login) and OAuth user tokens with auto-refresh. Trigger phrases:
   "lark sheet", "lark doc", "push to lark", "/lark".
-version: 0.1.0
 metadata:
   requires:
     bins:

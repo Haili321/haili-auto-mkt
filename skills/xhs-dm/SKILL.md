@@ -5,7 +5,6 @@ description: |
   Picks N pending bloggers from a local queue, drives the desktop Rednote app
   through search, like, follow, DM, then writes the result back to the queue.
   Trigger phrases: "run today xhs dm", "跑今日 DM", "/xhs-dm".
-version: 0.1.0
 metadata:
   requires:
     bins:
@@ -62,6 +61,7 @@ Treat the path inputs as untrusted: confirm with the user before writing.
 |---|---|
 | `scripts/pick_today.py` | Pick today's targets, mark `in_progress`. |
 | `scripts/mark_sent.py` | Mark a row as sent and record `sent_at`. |
+| `scripts/sync_to_lark.py` | Optional driver: mirror sent rows into a Lark sheet column (depends on the `lark` skill). |
 | `references/sop.md` | Step-by-step procedure inside Rednote + red lines. |
 | `references/queue-schema.md` | Schema of `queue.json` and lifecycle states. |
 | `templates/queue.example.json` | Example queue with 3 fake bloggers. |

@@ -70,7 +70,7 @@ Outreach (Lark / Brevo / XHS):
 |---|---|
 | `lark` → `brevo` | Read finalised outreach copy and recipients from a Lark doc or sheet; the agent assembles a Brevo request JSON per recipient; `brevo` dry-runs, test-sends, then officially sends. |
 | `lark` → `xhs-dm` | The agent reads a blogger list from a Lark sheet via `LarkClient.get_sheet_values`, transforms rows into the `queue.json` schema, and hands off to `xhs-dm`. |
-| `xhs-dm` → `lark` | After `pick_today.py` and a DM run, the agent calls `LarkClient.update_sheet_values` to tick a status column on the source sheet, keeping the Lark tracker in sync with `queue.json`. |
+| `xhs-dm` → `lark` | After `pick_today.py` and a DM run, run `skills/xhs-dm/scripts/sync_to_lark.py` to mirror sent rows into a Lark sheet column (depends on the `lark` skill). The first glue script in the repo. |
 | `brevo` + `xhs-dm` | Run `brevo` email outreach first; after a follow-up window, the agent moves no-reply recipients into the `xhs-dm` queue for a second channel. |
 
 Content (blog drafts):

@@ -4,7 +4,6 @@ description: |
   Send transactional outreach emails through Brevo's API one at a time.
   Supports dry-run, test-send (override recipients), and official send.
   Trigger phrases: "send brevo email", "test brevo", "/brevo".
-version: 0.1.0
 metadata:
   requires:
     bins:

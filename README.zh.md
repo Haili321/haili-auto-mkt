@@ -69,7 +69,7 @@ Python 层面所有技能互相独立（不跨目录 import），但设计上可
 |---|---|
 | `lark` → `brevo` | 从 Lark 文档或表格里读定稿外联文案 + 收件人，agent 按收件人拼出 Brevo request JSON，`brevo` 空跑 + 测试 + 正式发送。 |
 | `lark` → `xhs-dm` | agent 用 `LarkClient.get_sheet_values` 从 Lark 表读博主名单，转成 `queue.json` 结构，交给 `xhs-dm` 处理。 |
-| `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，agent 调 `LarkClient.update_sheet_values` 在源表上把状态列打勾，让 Lark tracker 和 `queue.json` 同步。 |
+| `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，跑 `skills/xhs-dm/scripts/sync_to_lark.py` 把 sent 行同步到 Lark sheet 某一列（依赖 `lark` skill）。仓库第一个 glue 脚本。 |
 | `brevo` + `xhs-dm` | 先跑 `brevo` 邮件外联，过一段时间未回复的 agent 自动转进 `xhs-dm` 的 queue.json，走第二条触达渠道。 |
 
 内容（博客草稿）：

@@ -5,7 +5,6 @@ description: |
   group by topic, and surface cross-topic upvote suggestions so a PH
   account looks like a real curious user rather than a single-vertical
   voter. Trigger phrases: "ph daily", "product hunt today", "/ph".
-version: 0.1.0
 metadata:
   requires:
     bins:

@@ -7,7 +7,6 @@ description: |
   polish theme, font, and cover. Use this whenever the user wants to
   publish, edit, or shape an event for Luma. Trigger phrases: "post a
   workshop on luma", "fix my luma event", "/luma-event-promo".
-version: 0.1.0
 metadata:
   requires:
     bins:

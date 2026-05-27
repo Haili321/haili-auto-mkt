@@ -6,7 +6,6 @@ description: |
   open; the final publish step to your company's official website blog
   stays manual.
   Trigger phrases: "push blog to lark", "blog to lark doc", "/lark-blog".
-version: 0.1.0
 metadata:
   requires:
     bins:
