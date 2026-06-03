@@ -3,7 +3,10 @@ name: brevo
 description: |
   Send transactional outreach emails through Brevo's API one at a time.
   Supports dry-run, test-send (override recipients), and official send.
-  Trigger phrases: "send brevo email", "test brevo", "/brevo".
+  Also has an urgent model-launch mode: compose a launch email from official
+  vendor and platform pages, host the image on Brevo, build it on a template, and
+  send a review test.
+  Trigger phrases: "send brevo email", "test brevo", "/brevo", "urgent launch".
 metadata:
   requires:
     bins:
@@ -112,6 +115,32 @@ that volume is fine for testing. Upgrade if you need more.
 6. After each send, surface the Brevo `messageId` and the path to the run's
    output directory.
 
+## Urgent model launch
+
+When a new model drops and there is no pre-written copy, compose the email
+from official sources and send a review test. This mode never sends to a real
+list on its own; it produces a draft plus a test for a human to sign off.
+Full playbook: [references/urgent-launch.md](references/urgent-launch.md).
+
+1. Gather facts from the vendor's official site (capabilities, benchmarks,
+   architecture) and your platform's model page (pricing, promo banner text, CTA
+   url). Keep a source next to every number; quote the promo wording exactly.
+2. Get a clean public image url (a vendor CDN file with no token query string,
+   not a LinkedIn/licdn url) and host it on Brevo:
+   ```bash
+   skills/brevo/scripts/brevo_image_import.py --url <public_image_url> --name <model>-bench
+   ```
+3. Put the copy into a spec JSON ([templates/model_launch_spec.example.json](templates/model_launch_spec.example.json)).
+   House style: conservative claims only, no em dashes, low AI-feel, single CTA.
+4. Build the email:
+   ```bash
+   skills/brevo/scripts/build_model_email.py --spec spec.json \
+     --out-html model_email.html --out-request model_request.json
+   ```
+5. Send a review test to the user, cc the reviewer (put `to`/`cc` in the
+   request JSON, keep the `TEST -` subject, send transactionally). Stage a
+   Brevo draft campaign for the real send after sign-off.
+
 ## Output
 
 Each invocation writes to `./brevo-output/<UTC timestamp>/`:
@@ -131,9 +160,14 @@ Customise the root with `--output-root`.
 |---|---|
 | `scripts/run_brevo_email.py` | Renderer + sender. Zero-dependency Python 3. |
 | `scripts/bootstrap_runtime.sh` | Thin wrapper that resolves the script path. |
+| `scripts/brevo_image_import.py` | Import a public image url into the Brevo gallery; prints the hosted url. |
+| `scripts/build_model_email.py` | Fill the model-launch template from a spec JSON into HTML + request JSON. |
 | `references/request-schema.md` | Full request JSON schema with field rules. |
+| `references/urgent-launch.md` | Urgent model-launch playbook (sources, image, copy, send). |
 | `templates/minimal_request.example.json` | Smallest working request. |
 | `templates/outreach_request.example.json` | Multi-section outreach request. |
+| `templates/model_launch.template.html` | Tokenized model-launch email template ([[ ]] tokens). |
+| `templates/model_launch_spec.example.json` | Example spec for the model-launch builder. |
 | `.env.example` | Template env file. Copy to `.env.local` and fill in. |
 
 ## Safety rules

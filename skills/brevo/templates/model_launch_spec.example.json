@@ -1,0 +1,38 @@
+{
+  "subject": "Your Model is now live, with launch pricing",
+  "header_image_url": "https://placehold.co/1280x600?text=Benchmark+Image",
+  "greeting": "Hi there,",
+  "intro": [
+    "Your Model is live on Your Platform. One line on what it does and why it is worth a look.",
+    "One line on the architecture or efficiency angle, in plain words."
+  ],
+  "highlights_heading": "What stands out",
+  "highlights": [
+    "Score X on Benchmark A, ahead of Competitor 1",
+    "Score Y on Benchmark B, above Competitor 2 and Competitor 3",
+    "A capability line: context window, modality, or tool use",
+    "A capability line: training scale or multimodality",
+    "Drops into your stack: list the compatibility flags"
+  ],
+  "pricing_heading": "Launch pricing, through <date>:",
+  "pricing": [
+    "Input: $X per 1M tokens",
+    "Cache read: $Y per 1M tokens",
+    "Output: $Z per 1M tokens"
+  ],
+  "closing_line": "Run it on your hardest task and tell me how it goes.",
+  "cta_text": "Try Your Model",
+  "cta_url": "https://example.com/models/your-model",
+  "sign_name": "Your Name",
+  "sign_title": "Your Title",
+  "sign_address": "Your Company Address",
+  "sign_photo_url": "https://placehold.co/170x170?text=Logo",
+  "footer_image_url": "https://placehold.co/200x80?text=Footer",
+  "sender": { "email": "marketing@example.com", "name": "Your Brand" },
+  "to": [ { "email": "you@example.com", "name": "Reviewer" } ],
+  "tags": ["model-launch", "test"],
+  "metadata": {
+    "sources": ["vendor-official-site", "your-platform-model-page"],
+    "status": "test"
+  }
+}
