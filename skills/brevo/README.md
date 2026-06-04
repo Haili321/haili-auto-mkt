@@ -1,5 +1,7 @@
 # Brevo Email Skill
 
+[中文](README.zh.md)
+
 Turn one link into a reviewed, ready-to-send launch email.
 
 Hand the agent a model name or an official product link. It reads the page

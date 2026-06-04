@@ -47,7 +47,7 @@ python3 skills/ph/scripts/ph_daily.py --picks 5
 
 | 技能 | 用途 | 运行环境 |
 |---|---|---|
-| `brevo` | 通过 Brevo API 起草、空跑、测试发送、正式发送外联邮件。一封一发，每次都有审计日志。 | Brevo HTTP API |
+| [`brevo`](skills/brevo/) | 通过 Brevo API 起草、空跑、测试发送、正式发送外联邮件。另有 **urgent model-launch** 模式：给一个官方链接，agent 自己读页面、写对品牌初稿、托管图片，发测试给你审核，通过后再群发。[看流水线](skills/brevo/README.zh.md)。 | Brevo HTTP API |
 | `lark` | 读写 Lark / 飞书国际版的文档、表格、云盘、消息。自带 `LarkClient` 库 + OAuth 助手 + JSON 推到 sheet 的脚本。 | Lark 开放平台 API |
 | `lark-blog` | 把 Markdown 博客草稿（含 inline 图片占位）转成新的 Lark docx 供审阅。分批 push blocks、上传 PNG、绑定到图片 block。 | Lark 开放平台 API（依赖 `lark` 技能）|
 | `luma-event-promo` | Luma 活动从无到有的整套流程：调研同城同类活动、起草不像 AI 写的英文文案、建 Private 草稿、用 admin API 修 start_at / duration / capacity 的坑、调主题字体封面。 | Luma admin API + 浏览器 UI |
@@ -182,11 +182,12 @@ python3 skills/xhs-dm/scripts/mark_sent.py --queue ./queue.json 2 3
 haili-auto-mkt/
 ├── install.sh              # 给 Claude Code / Codex 用的一键安装脚本
 ├── skills/
-│   ├── brevo/              # Brevo 邮件发送
+│   ├── brevo/              # Brevo 邮件 + urgent model-launch 模式
+│   │   ├── README.md / README.zh.md   # 流水线说明，带流程图
 │   │   ├── SKILL.md
-│   │   ├── scripts/        # run_brevo_email.py + 启动 wrapper
-│   │   ├── references/     # 请求 schema
-│   │   ├── templates/      # 最小 + 外联请求模板
+│   │   ├── scripts/        # run + 图片导入 + 模型邮件生成器
+│   │   ├── references/     # 请求 schema + urgent-launch playbook
+│   │   ├── templates/      # 请求 + 模型发布模版和 spec
 │   │   └── .env.example
 │   ├── lark/               # Lark / 飞书国际版 API
 │   │   ├── SKILL.md
