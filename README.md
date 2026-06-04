@@ -47,7 +47,7 @@ For the full Claude Code / Codex experience, jump to
 
 | Skill | What it does | Surfaces |
 |---|---|---|
-| `brevo` | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. One email per recipient, audit logs per run. | Brevo HTTP API |
+| [`brevo`](skills/brevo/) | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. Plus an **urgent model-launch** mode: from one official link the agent reads the page, drafts an on-brand email, hosts the image, and sends a review test before the approved blast. [See the pipeline](skills/brevo/README.md). | Brevo HTTP API |
 | `lark` | Read and write Lark (Feishu international) docs, sheets, drive files, and messages. Ships a `LarkClient` library + one-time OAuth helper + JSON-to-sheet pusher. | Lark Open Platform API |
 | `lark-blog` | Turn a Markdown blog draft (with inline image placeholders) into a new Lark docx for review. Posts blocks in batches, uploads PNGs, binds each to its image block. | Lark Open Platform API (depends on `lark` skill) |
 | `luma-event-promo` | End-to-end Luma event launch: research comparable events, draft non-AI-sounding copy, create a Private draft, fix Luma's start_at / duration / capacity traps via the admin API, polish theme, font, cover. | Luma admin API + browser UI |
@@ -186,11 +186,12 @@ python3 skills/xhs-dm/scripts/mark_sent.py --queue ./queue.json 2 3
 haili-auto-mkt/
 ├── install.sh              # one-shot installer for Claude Code / Codex
 ├── skills/
-│   ├── brevo/              # Brevo transactional email
+│   ├── brevo/              # Brevo email + urgent model-launch mode
+│   │   ├── README.md       # the launch pipeline, with a diagram
 │   │   ├── SKILL.md
-│   │   ├── scripts/        # run_brevo_email.py + bootstrap wrapper
-│   │   ├── references/     # request schema
-│   │   ├── templates/      # minimal + outreach request templates
+│   │   ├── scripts/        # run + image-import + model-email builder
+│   │   ├── references/     # request schema + urgent-launch playbook
+│   │   ├── templates/      # request + model-launch template & spec
 │   │   └── .env.example
 │   ├── lark/               # Lark / Feishu international API
 │   │   ├── SKILL.md
