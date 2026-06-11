@@ -3,12 +3,12 @@
   "header_image_url": "https://placehold.co/1280x600?text=Benchmark+Image",
   "greeting": "Hi there,",
   "intro": [
-    "Your Model is live on Your Platform. One line on what it does and why it is worth a look.",
+    "**Your Model beats Competitor 1 on Benchmark A**, and it is live on Your Platform. One line on what it does and why it is worth a look.",
     "One line on the architecture or efficiency angle, in plain words."
   ],
   "highlights_heading": "What stands out",
   "highlights": [
-    "Score X on Benchmark A, ahead of Competitor 1",
+    "**Score X on Benchmark A, ahead of Competitor 1:** one plain detail line",
     "Score Y on Benchmark B, above Competitor 2 and Competitor 3",
     "A capability line: context window, modality, or tool use",
     "A capability line: training scale or multimodality",

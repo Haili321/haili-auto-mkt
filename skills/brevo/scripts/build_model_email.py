@@ -31,7 +31,10 @@ def no_dash(text: str) -> str:
 
 
 def esc(text: str) -> str:
-    return html.escape(no_dash(str(text)), quote=False)
+    out = html.escape(no_dash(str(text)), quote=False)
+    # lightweight bold: **text** -> <strong>text</strong> (after escaping, so it is safe)
+    out = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", out)
+    return out
 
 
 def paras(items: list[str]) -> str:
@@ -77,17 +80,18 @@ def build_body(spec: dict) -> str:
 def fill(template: str, spec: dict) -> str:
     body = build_body(spec)
     out = template
+    att = lambda u: html.escape(str(u), quote=True)  # URL tokens land in src/href attributes
     repl = {
         "[[SUBJECT]]": html.escape(no_dash(spec["subject"]), quote=False),
-        "[[HEADER_IMAGE_URL]]": spec["header_image_url"],
+        "[[HEADER_IMAGE_URL]]": att(spec["header_image_url"]),
         "[[BODY_HTML]]": body,
-        "[[CTA_URL]]": spec["cta_url"],
+        "[[CTA_URL]]": att(spec["cta_url"]),
         "[[CTA_TEXT]]": esc(spec["cta_text"]),
         "[[SIGN_NAME]]": esc(spec.get("sign_name", "Your Name")),
         "[[SIGN_TITLE]]": esc(spec.get("sign_title", "Your Title")),
         "[[SIGN_ADDRESS]]": esc(spec.get("sign_address", "Your address")),
-        "[[SIGN_PHOTO_URL]]": spec.get("sign_photo_url", "https://placehold.co/170x170?text=Logo"),
-        "[[FOOTER_IMAGE_URL]]": spec.get("footer_image_url", "https://placehold.co/200x80?text=Footer"),
+        "[[SIGN_PHOTO_URL]]": att(spec.get("sign_photo_url", "https://placehold.co/170x170?text=Logo")),
+        "[[FOOTER_IMAGE_URL]]": att(spec.get("footer_image_url", "https://placehold.co/200x80?text=Footer")),
     }
     for k, v in repl.items():
         if k not in out:

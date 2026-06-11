@@ -55,6 +55,10 @@ Style:
 - Conservative claims only. State what the source supports. If the benchmark grid
   shows the model trailing on most rows, do NOT write "beats everyone"; name the
   specific wins the way a careful marketer would.
+- Front-load the strongest comparison. Put the "beats Competitor X" point as early
+  as possible (the first words of the first intro line, and the start of a bullet,
+  not buried mid-sentence) and wrap it in `**bold**`. The build script converts
+  `**text**` to `<strong>` safely after HTML escaping.
 - No em dashes anywhere (the build script strips them, but write clean).
 - Low AI-feel: short sentences, plain verbs (does, runs, drops into), cut hype words
   (frontier, purpose-built, dramatically, drop-in ready, from step zero). Avoid
