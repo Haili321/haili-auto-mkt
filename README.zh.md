@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
-  <img src="https://img.shields.io/badge/skills-6-14b8a6.svg?style=flat-square" alt="6 skills">
+  <img src="https://img.shields.io/badge/skills-7-14b8a6.svg?style=flat-square" alt="7 skills">
   <img src="https://img.shields.io/badge/python-3.10%2B-3776ab.svg?style=flat-square" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/Claude%20Code-ready-0ea5e9.svg?style=flat-square" alt="Claude Code ready">
   <img src="https://img.shields.io/badge/Codex-ready-2563eb.svg?style=flat-square" alt="Codex ready">
@@ -50,6 +50,7 @@ python3 skills/ph/scripts/ph_daily.py --picks 5
 | [`brevo`](skills/brevo/) | 通过 Brevo API 起草、空跑、测试发送、正式发送外联邮件。另有 **urgent model-launch** 模式：给一个官方链接，agent 自己读页面、写对品牌初稿、托管图片，发测试给你审核，通过后再群发。[看流水线](skills/brevo/README.zh.md)。 | Brevo HTTP API |
 | `lark` | 读写 Lark / 飞书国际版的文档、表格、云盘、消息。自带 `LarkClient` 库 + OAuth 助手 + JSON 推到 sheet 的脚本。 | Lark 开放平台 API |
 | `lark-blog` | 把 Markdown 博客草稿（含 inline 图片占位）转成新的 Lark docx 供审阅。分批 push blocks、上传 PNG、绑定到图片 block。 | Lark 开放平台 API（依赖 `lark` 技能）|
+| [`lark-launch-trigger`](skills/lark-launch-trigger/) | 把 Lark 群里的一次 @ 变成即时发布邮件流水线：常驻监听经长连接 WebSocket 秒级收到「@机器人 + 产品链接」（无需公网服务器），已备好的模型立即用 Brevo 发审核测试邮件，新模型入队交给 compose agent，状态自动回贴到群。[看流程](skills/lark-launch-trigger/README.zh.md)。 | Lark 事件 WebSocket（调用 `brevo` 技能发信）|
 | `luma-event-promo` | Luma 活动从无到有的整套流程：调研同城同类活动、起草不像 AI 写的英文文案、建 Private 草稿、用 admin API 修 start_at / duration / capacity 的坑、调主题字体封面。 | Luma admin API + 浏览器 UI |
 | `ph` | Product Hunt 日常养号：拉日榜、按主题分组、推荐跨品类 upvote 目标，让账号看起来像有好奇心的真实用户而不是单一垂类的投票机。 | Product Hunt GraphQL API |
 | `xhs-dm` | 驱动桌面版小红书 (Rednote) 完成每日 DM 节奏：从队列里挑 N 个目标，搜索、点赞、关注、发私信、回写结果。 | macOS 桌面应用 + computer-use |
@@ -71,6 +72,7 @@ Python 层面所有技能互相独立（不跨目录 import），但设计上可
 | `lark` → `xhs-dm` | agent 用 `LarkClient.get_sheet_values` 从 Lark 表读博主名单，转成 `queue.json` 结构，交给 `xhs-dm` 处理。 |
 | `xhs-dm` → `lark` | `pick_today.py` 选完目标、DM 跑完之后，跑 `skills/xhs-dm/scripts/sync_to_lark.py` 把 sent 行同步到 Lark sheet 某一列（依赖 `lark` skill）。仓库第一个 glue 脚本。 |
 | `brevo` + `xhs-dm` | 先跑 `brevo` 邮件外联，过一段时间未回复的 agent 自动转进 `xhs-dm` 的 queue.json，走第二条触达渠道。 |
+| `lark-launch-trigger` → `brevo` | 同事在 Lark 群里 @ 机器人 + 产品链接；监听 1 秒内触发，`handle_launch.py` 驱动 `brevo` 发审核测试邮件，结果自动回贴到群。仓库第一条事件驱动的链路，直接以脚本形态发布。 |
 
 内容（博客草稿）：
 
@@ -93,9 +95,9 @@ Python 层面所有技能互相独立（不跨目录 import），但设计上可
 | `ph` → `lark` | agent 拉当日 PH 日榜、挑跨品类目标，把选择（含理由）写到 Lark sheet，让日常动作有审计记录。 |
 | `ph` + 外联 | `ph` 拉到值得联系的 maker 时，agent 可以把他们的 handle 喂给 `brevo`（如果有邮箱）或者放进 `xhs-dm` 队列（如果在小红书上）。 |
 
-这些链路由 agent 读各自的 `SKILL.md` + references 后串起来，repo 里暂时
-没有 glue 脚本。如果某条链路用得多，自然下一步是在目标侧 skill 下加
-一个小 driver。
+大部分链路由 agent 读各自的 `SKILL.md` + references 后串起来。有两条已经
+落成脚本（用得多的链路就在目标侧 skill 下沉淀一个小 driver）：`xhs-dm`
+的 `sync_to_lark.py` 和 `lark-launch-trigger` 的 `handle_launch.py`。
 
 ## 一行安装
 
@@ -148,6 +150,19 @@ python3 skills/lark-blog/scripts/push_blog_to_lark.py \
 # 依赖 lark skill 装在同级；详见 SKILL.md。
 ```
 
+### lark-launch-trigger
+
+```bash
+python3 -m pip install lark-oapi
+cp skills/lark/templates/lark_config.example.json ./lark_config.json
+cp skills/lark-launch-trigger/templates/trigger_config.example.json ./trigger_config.json
+# 两个都填好。控制台一次性设置（长连接 + 接收消息事件 + 发布版本）：
+# skills/lark-launch-trigger/references/event-subscription.md
+python3 skills/lark-launch-trigger/scripts/lark_at_listener.py   # 前台跑
+bash skills/lark-launch-trigger/deploy/install.sh "$PWD"         # 或 launchd 常驻
+# 然后在 Lark 群里：@你的机器人 https://your-platform.example.com/models/your-model
+```
+
 ### luma-event-promo
 
 ```bash
@@ -198,6 +213,13 @@ haili-auto-mkt/
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # push_blog_to_lark.py
 │   │   └── templates/      # sample-blog.md
+│   ├── lark-launch-trigger/ # Lark @机器人 -> 即时 Brevo 发布流水线
+│   │   ├── README.md / README.zh.md   # 触发流程说明，带时序图
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # WebSocket 监听 + 处理器 + 轮询兜底
+│   │   ├── deploy/         # launchd 常驻安装脚本
+│   │   ├── references/     # 事件订阅设置 + watcher agent
+│   │   └── templates/      # trigger_config.example.json
 │   ├── luma-event-promo/   # Luma 活动从无到有发布 + polish
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # update_event.py + build_description.py
@@ -219,7 +241,8 @@ haili-auto-mkt/
 
 - 技能以读为主。agent 读 `SKILL.md`，然后调用脚本。状态保存在用户自己的
   `queue.json` 和文案文件里，不进 repo。
-- 脚本零依赖：只用 Python 3 标准库，不用建虚拟环境。
+- 脚本零依赖：只用 Python 3 标准库，唯一例外是 `lark-launch-trigger`
+  的监听进程需要 `lark-oapi` SDK 来维持长连接 WebSocket。不用建虚拟环境。
 - 隐私优先：`.gitignore` 屏蔽了 `queue.json` 和 `dm-message.md`，
   真实目标和外联文案不会进 commit。
 - 不内置外部集成 (Lark / Notion / Airtable)。如果想把结果同步到外部

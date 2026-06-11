@@ -27,6 +27,10 @@ flowchart TD
     H -- "approved" --> I["Mass-send on Brevo<br/>to the contact list (merchants, subscribers, ...)"]
 ```
 
+The first arrow does not have to be you typing: the
+[`lark-launch-trigger`](../lark-launch-trigger/) skill lets a teammate start
+this pipeline by @mentioning a bot in a Lark group with the product link.
+
 ## What goes in, what comes out
 
 | You provide | The agent produces |

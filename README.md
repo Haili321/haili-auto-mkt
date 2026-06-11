@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="MIT License"></a>
-  <img src="https://img.shields.io/badge/skills-6-14b8a6.svg?style=flat-square" alt="6 skills">
+  <img src="https://img.shields.io/badge/skills-7-14b8a6.svg?style=flat-square" alt="7 skills">
   <img src="https://img.shields.io/badge/python-3.10%2B-3776ab.svg?style=flat-square" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/Claude%20Code-ready-0ea5e9.svg?style=flat-square" alt="Claude Code ready">
   <img src="https://img.shields.io/badge/Codex-ready-2563eb.svg?style=flat-square" alt="Codex ready">
@@ -50,6 +50,7 @@ For the full Claude Code / Codex experience, jump to
 | [`brevo`](skills/brevo/) | Draft, dry-run, test-send, and officially send transactional outreach emails through Brevo's API. Plus an **urgent model-launch** mode: from one official link the agent reads the page, drafts an on-brand email, hosts the image, and sends a review test before the approved blast. [See the pipeline](skills/brevo/README.md). | Brevo HTTP API |
 | `lark` | Read and write Lark (Feishu international) docs, sheets, drive files, and messages. Ships a `LarkClient` library + one-time OAuth helper + JSON-to-sheet pusher. | Lark Open Platform API |
 | `lark-blog` | Turn a Markdown blog draft (with inline image placeholders) into a new Lark docx for review. Posts blocks in batches, uploads PNGs, binds each to its image block. | Lark Open Platform API (depends on `lark` skill) |
+| [`lark-launch-trigger`](skills/lark-launch-trigger/) | Turn a Lark group @mention into an instant launch-email pipeline: an always-on listener catches "@bot + product link" over a long-connection WebSocket (about 1s, no public server), test-sends a prepared Brevo email for known models, queues new ones for a compose agent, and posts status back to the group. [See the flow](skills/lark-launch-trigger/README.md). | Lark event WebSocket (uses the `brevo` skill to send) |
 | `luma-event-promo` | End-to-end Luma event launch: research comparable events, draft non-AI-sounding copy, create a Private draft, fix Luma's start_at / duration / capacity traps via the admin API, polish theme, font, cover. | Luma admin API + browser UI |
 | `ph` | Daily Product Hunt account-warming: pull the leaderboard, group by topic, surface cross-topic upvote suggestions so the account looks like a curious user rather than a single-vertical voter. | Product Hunt GraphQL API |
 | `xhs-dm` | Drive the desktop Rednote (Xiaohongshu) app through a daily DM cadence: pick N targets from a queue, search, like, follow, send a DM, mark the result. | macOS desktop app via computer-use |
@@ -72,6 +73,7 @@ Outreach (Lark / Brevo / XHS):
 | `lark` → `xhs-dm` | The agent reads a blogger list from a Lark sheet via `LarkClient.get_sheet_values`, transforms rows into the `queue.json` schema, and hands off to `xhs-dm`. |
 | `xhs-dm` → `lark` | After `pick_today.py` and a DM run, run `skills/xhs-dm/scripts/sync_to_lark.py` to mirror sent rows into a Lark sheet column (depends on the `lark` skill). The first glue script in the repo. |
 | `brevo` + `xhs-dm` | Run `brevo` email outreach first; after a follow-up window, the agent moves no-reply recipients into the `xhs-dm` queue for a second channel. |
+| `lark-launch-trigger` → `brevo` | A teammate @mentions the bot in a Lark group with a product link; the listener fires within a second and `handle_launch.py` drives `brevo` to send the reviewer test, then posts the result back into the group. The repo's first event-driven chain, shipped as a script. |
 
 Content (blog drafts):
 
@@ -94,10 +96,10 @@ Account presence (PH):
 | `ph` → `lark` | The agent pulls the day's PH leaderboard, picks cross-topic targets, then writes the picks (with reasoning) into a Lark sheet so daily activity is auditable. |
 | `ph` + outreach | When `ph` surfaces a maker worth contacting, the agent can pass their handle into `brevo` (if there's an email on file) or queue them for `xhs-dm` (if they're on Xiaohongshu). |
 
-These chains are orchestrated by the agent reading each skill's `SKILL.md`
-and the references; no glue scripts ship in this repo yet. If a chain
-becomes routine, the natural next step is to add a small driver script
-under the skill that owns the destination side.
+Most chains are orchestrated by the agent reading each skill's `SKILL.md`
+and the references. Two ship as scripts, following the rule that a routine
+chain earns a small driver under the skill that owns the destination side:
+`xhs-dm`'s `sync_to_lark.py` and `lark-launch-trigger`'s `handle_launch.py`.
 
 ## One-line install
 
@@ -152,6 +154,19 @@ python3 skills/lark-blog/scripts/push_blog_to_lark.py \
 # Depends on the lark skill being installed alongside; see SKILL.md.
 ```
 
+### lark-launch-trigger
+
+```bash
+python3 -m pip install lark-oapi
+cp skills/lark/templates/lark_config.example.json ./lark_config.json
+cp skills/lark-launch-trigger/templates/trigger_config.example.json ./trigger_config.json
+# Fill both. One-time console setup (persistent connection + Message received
+# event + version release): skills/lark-launch-trigger/references/event-subscription.md
+python3 skills/lark-launch-trigger/scripts/lark_at_listener.py   # foreground
+bash skills/lark-launch-trigger/deploy/install.sh "$PWD"         # or 24/7 via launchd
+# Then, in the Lark group: @YourBot https://your-platform.example.com/models/your-model
+```
+
 ### luma-event-promo
 
 ```bash
@@ -202,6 +217,13 @@ haili-auto-mkt/
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # push_blog_to_lark.py
 │   │   └── templates/      # sample-blog.md
+│   ├── lark-launch-trigger/ # Lark @mention -> instant Brevo launch pipeline
+│   │   ├── README.md       # the trigger flow, with a diagram
+│   │   ├── SKILL.md
+│   │   ├── scripts/        # WebSocket listener + handler + polling fallback
+│   │   ├── deploy/         # launchd install for 24/7 runs
+│   │   ├── references/     # event-subscription setup + watcher agent
+│   │   └── templates/      # trigger_config.example.json
 │   ├── luma-event-promo/   # End-to-end Luma event launch + polish
 │   │   ├── SKILL.md
 │   │   ├── scripts/        # update_event.py + build_description.py
@@ -224,8 +246,9 @@ haili-auto-mkt/
 - Skills are read-mostly. The agent reads `SKILL.md`, then chooses scripts
   to invoke. State lives in the user's own `queue.json` and DM message file,
   never inside this repo.
-- Scripts are dependency-free: standard library Python 3 only. No virtualenv
-  needed.
+- Scripts are dependency-free: standard library Python 3 only, with one
+  exception: the `lark-launch-trigger` listener needs the `lark-oapi` SDK
+  for its long-connection WebSocket. No virtualenv needed.
 - Privacy first. The `.gitignore` blocks `queue.json` and `dm-message.md` so
   real target lists and outreach copy do not leak into commits.
 - External integrations such as Lark, Notion, Airtable are deliberately not

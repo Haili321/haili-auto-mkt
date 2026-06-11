@@ -24,6 +24,10 @@ flowchart TD
     H -- "通过" --> I["在 Brevo 群发<br/>到联系人列表（商家、订阅用户……）"]
 ```
 
+第一个箭头不一定是你手动输入：配合
+[`lark-launch-trigger`](../lark-launch-trigger/README.zh.md) 技能，同事在
+Lark 群里 @ 机器人 + 产品链接，就能直接启动这条流水线。
+
 ## 输入什么，产出什么
 
 | 你提供 | agent 产出 |

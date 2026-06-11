@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy to trigger_config.json next to lark_config.json (both gitignored). bot_open_id is optional: when empty the scripts resolve this app's bot id automatically via /bot/v3/info. url_filter (optional) makes only links containing the substring fire, so random links in chat do not trigger sends. link_map maps a model slug (substring of the link) to a prepared Brevo request JSON; links with no slug match are queued for the compose agent instead. brevo_script (optional) points at run_brevo_email.py; empty means use the sibling brevo skill (skills/brevo/scripts/run_brevo_email.py).",
+  "bot_open_id": "",
+  "reviewer_email": "you@example.com",
+  "url_filter": "your-platform.example.com",
+  "link_map": {
+    "your-model-slug": "your_model_request.json"
+  },
+  "queue_dir": "launch-queue",
+  "brevo_script": "",
+  "feishu": false
+}

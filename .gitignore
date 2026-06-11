@@ -10,6 +10,11 @@ dm-message.*.md
 lark_config.json
 .lark_tokens.json
 
+# Lark launch-trigger runtime (real config + queue + logs must never be committed).
+trigger_config.json
+launch-queue/
+logs/
+
 # Product Hunt token cache.
 .ph_tokens.json
 
